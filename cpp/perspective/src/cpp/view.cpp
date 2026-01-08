@@ -2459,9 +2459,13 @@ View<T>::to_columns(
             std::pair<t_uindex, t_uindex> pair{x, 0};
             std::vector<std::pair<t_uindex, t_uindex>> vec{pair};
             const auto keys = m_ctx->get_pkeys(vec);
-            const t_tscalar& scalar = keys[0];
             writer.StartArray();
-            write_scalar(scalar, is_formatted, writer);
+            if (!keys.empty()) {
+                const t_tscalar& scalar = keys[0];
+                write_scalar(scalar, is_formatted, writer);
+            } else {
+                writer.Null();
+            }
             writer.EndArray();
         }
 
